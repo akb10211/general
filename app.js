@@ -24,6 +24,26 @@ function initializeApp() {
 
     // Set up modal
     setupModal();
+
+    // Set up corner ribbon visibility
+    setupCornerRibbon();
+}
+
+// Handle corner ribbon visibility based on scroll position
+function setupCornerRibbon() {
+    function updateRibbonVisibility() {
+        if (window.scrollY === 0) {
+            document.body.classList.add('at-top');
+        } else {
+            document.body.classList.remove('at-top');
+        }
+    }
+
+    // Initial check
+    updateRibbonVisibility();
+
+    // Update on scroll
+    window.addEventListener('scroll', updateRibbonVisibility);
 }
 
 // Render the main visualization
@@ -203,7 +223,7 @@ function createJusticeFilters(maxJustices, selectedSet, onChange) {
 
     const headerText = document.createElement('div');
     headerText.className = 'justice-filters-header';
-    headerText.textContent = `Filter by justice (select up to ${maxJustices}):`;
+    headerText.textContent = 'Filter by Justice:';
     filtersDiv.appendChild(headerText);
 
     const buttonsContainer = document.createElement('div');
