@@ -19,20 +19,6 @@ body {
     background: white;
     border: 1px solid #ddd;
     padding: 40px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Corner ribbon */
-.container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 150px;
-    height: 150px;
-    background: linear-gradient(135deg, transparent 0%, transparent 50%, #510000 50%, #510000 100%);
-    pointer-events: none;
 }
 
 /* Header */
@@ -41,6 +27,25 @@ header {
     margin-bottom: 40px;
     padding-bottom: 20px;
     border-bottom: 2px solid #222;
+    position: relative;
+}
+
+.kofi-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px 16px;
+    background: white;
+    color: #222;
+    text-decoration: none;
+    border: 1px solid #222;
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+}
+
+.kofi-btn:hover {
+    background: #222;
+    color: white;
 }
 
 h1 {
@@ -234,9 +239,14 @@ h1 {
     width: 60px;
     height: 60px;
     min-width: 60px;
-    max-width: 60px;
-    overflow: hidden;
     white-space: nowrap;
+}
+
+.matrix-table tr th:first-child {
+    text-align: right;
+    padding-right: 10px;
+    width: auto;
+    min-width: auto;
 }
 
 .matrix-table td {
@@ -469,9 +479,22 @@ h1 {
         height: 42px;
     }
 
+    .matrix-table tr th:first-child {
+        text-align: right;
+        padding-right: 8px;
+        width: auto;
+    }
+
     .matrix-table td {
         width: 42px;
         height: 42px;
+    }
+
+    .kofi-btn {
+        position: static;
+        display: block;
+        margin: 0 auto 15px;
+        width: fit-content;
     }
 
     .combinations-grid {
