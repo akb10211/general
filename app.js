@@ -109,8 +109,8 @@ function renderPairsMatrix(combinations, container) {
                 const occurred = hasOccurred(combo);
                 td.className = occurred ? 'occurred' : 'not-occurred';
 
-                // Add tooltip showing both justice names
-                td.title = `${justices[col].shortName} & ${justices[row].shortName}`;
+                // Add data attribute for hover display
+                td.dataset.justices = `${justices[col].shortName} & ${justices[row].shortName}`;
 
                 td.addEventListener('click', () => showCombinationDetails(combo));
             } else {
