@@ -1,6 +1,8 @@
 // Main application code
 let currentFilter = 'all';
 let allCombinations = [];
+let selectedJusticesForTrios = new Set();
+let selectedJusticesForQuads = new Set();
 
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -66,8 +68,7 @@ function renderPairsMatrix(combinations, container) {
 
     const header = document.createElement('div');
     header.className = 'size-group-header';
-    const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
-    header.textContent = `Pairs (${occurredCount} of ${combinations.length})`;
+    header.textContent = 'Pairs';
     sizeGroup.appendChild(header);
 
     // Create matrix container
@@ -123,21 +124,32 @@ function renderPairsMatrix(combinations, container) {
     container.appendChild(sizeGroup);
 }
 
-// Render trios as a grid
+// Render trios as a grid with justice filters
 function renderTriosGrid(combinations, container) {
     const sizeGroup = document.createElement('div');
     sizeGroup.className = 'size-group';
 
     const header = document.createElement('div');
     header.className = 'size-group-header';
-    const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
-    header.textContent = `Trios (${occurredCount} of ${combinations.length})`;
+    header.textContent = 'Trios';
     sizeGroup.appendChild(header);
+
+    // Add justice filters
+    const filtersDiv = createJusticeFilters(3, selectedJusticesForTrios, () => renderVisualization());
+    sizeGroup.appendChild(filtersDiv);
+
+    // Filter combinations based on selected justices
+    let filteredCombinations = combinations;
+    if (selectedJusticesForTrios.size > 0) {
+        filteredCombinations = combinations.filter(combo => {
+            return Array.from(selectedJusticesForTrios).every(justiceId => combo.includes(justiceId));
+        });
+    }
 
     const grid = document.createElement('div');
     grid.className = 'combinations-grid';
 
-    combinations.forEach(combo => {
+    filteredCombinations.forEach(combo => {
         const card = createCombinationCard(combo);
         grid.appendChild(card);
     });
@@ -146,27 +158,97 @@ function renderTriosGrid(combinations, container) {
     container.appendChild(sizeGroup);
 }
 
-// Render quads as a grid
+// Render quads as a grid with justice filters
 function renderQuadsGrid(combinations, container) {
     const sizeGroup = document.createElement('div');
     sizeGroup.className = 'size-group';
 
     const header = document.createElement('div');
     header.className = 'size-group-header';
-    const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
-    header.textContent = `Quads (${occurredCount} of ${combinations.length})`;
+    header.textContent = 'Quads';
     sizeGroup.appendChild(header);
+
+    // Add justice filters
+    const filtersDiv = createJusticeFilters(4, selectedJusticesForQuads, () => renderVisualization());
+    sizeGroup.appendChild(filtersDiv);
+
+    // Filter combinations based on selected justices
+    let filteredCombinations = combinations;
+    if (selectedJusticesForQuads.size > 0) {
+        filteredCombinations = combinations.filter(combo => {
+            return Array.from(selectedJusticesForQuads).every(justiceId => combo.includes(justiceId));
+        });
+    }
 
     const grid = document.createElement('div');
     grid.className = 'combinations-grid';
 
-    combinations.forEach(combo => {
+    filteredCombinations.forEach(combo => {
         const card = createCombinationCard(combo);
         grid.appendChild(card);
     });
 
     sizeGroup.appendChild(grid);
     container.appendChild(sizeGroup);
+}
+
+// Create justice filter buttons
+function createJusticeFilters(maxJustices, selectedSet, onChange) {
+    const filtersDiv = document.createElement('div');
+    filtersDiv.className = 'justice-filters';
+
+    const headerText = document.createElement('div');
+    headerText.className = 'justice-filters-header';
+    headerText.textContent = `Filter by justice (select up to ${maxJustices}):`;
+    filtersDiv.appendChild(headerText);
+
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'justice-filter-buttons';
+
+    // Create button for each justice
+    justices.forEach(justice => {
+        const button = document.createElement('button');
+        button.className = 'justice-filter-btn';
+        button.textContent = justice.shortName;
+        button.dataset.justiceId = justice.id;
+
+        if (selectedSet.has(justice.id)) {
+            button.classList.add('active');
+        }
+
+        // Disable if max justices selected and this one isn't selected
+        if (selectedSet.size >= maxJustices && !selectedSet.has(justice.id)) {
+            button.disabled = true;
+        }
+
+        button.addEventListener('click', () => {
+            if (selectedSet.has(justice.id)) {
+                selectedSet.delete(justice.id);
+            } else {
+                if (selectedSet.size < maxJustices) {
+                    selectedSet.add(justice.id);
+                }
+            }
+            onChange();
+        });
+
+        buttonsContainer.appendChild(button);
+    });
+
+    // Add clear filters button
+    if (selectedSet.size > 0) {
+        const clearButton = document.createElement('button');
+        clearButton.className = 'clear-filters-btn';
+        clearButton.textContent = 'Clear';
+        clearButton.addEventListener('click', () => {
+            selectedSet.clear();
+            onChange();
+        });
+        buttonsContainer.appendChild(clearButton);
+    }
+
+    filtersDiv.appendChild(buttonsContainer);
+    return filtersDiv;
 }
 
 // Create a card for a single combination (used for trios and quads)
@@ -211,6 +293,10 @@ function setupFilterButtons() {
 
             // Update current filter
             currentFilter = button.dataset.filter;
+
+            // Clear justice filters when switching views
+            selectedJusticesForTrios.clear();
+            selectedJusticesForQuads.clear();
 
             // Re-render visualization
             renderVisualization();

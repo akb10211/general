@@ -126,9 +126,73 @@ h1 {
 .size-group-header {
     font-size: 1.3em;
     font-weight: normal;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #222;
     letter-spacing: 0.02em;
+}
+
+/* Justice filters for trios and quads */
+.justice-filters {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.justice-filters-header {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.justice-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.justice-filter-btn {
+    padding: 6px 14px;
+    border: 1px solid #666;
+    background: white;
+    color: #222;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+}
+
+.justice-filter-btn:hover {
+    background: #f0f0f0;
+}
+
+.justice-filter-btn.active {
+    background: #222;
+    color: white;
+    border-color: #222;
+}
+
+.justice-filter-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.clear-filters-btn {
+    padding: 6px 14px;
+    border: 1px solid #999;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+
+.clear-filters-btn:hover {
+    background: #f0f0f0;
+    border-color: #222;
+    color: #222;
 }
 
 /* Matrix visualization for pairs */
@@ -139,21 +203,24 @@ h1 {
 }
 
 .matrix-table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .matrix-table th {
     font-weight: normal;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     font-size: 0.9em;
     color: #666;
+    width: 50px;
+    height: 50px;
 }
 
 .matrix-table td {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ddd;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #222;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -161,10 +228,12 @@ h1 {
 
 .matrix-table td.occurred {
     background: #222;
+    border: 1px solid #222;
 }
 
 .matrix-table td.not-occurred {
     background: white;
+    border: 1px solid #222;
 }
 
 .matrix-table td.empty {
@@ -173,8 +242,9 @@ h1 {
 }
 
 .matrix-table td:not(.empty):hover {
-    border-color: #222;
-    border-width: 2px;
+    outline: 2px solid #666;
+    outline-offset: -2px;
+    z-index: 10;
 }
 
 /* Trios and Quads grid */
@@ -347,15 +417,16 @@ h1 {
         gap: 10px;
     }
 
-    .matrix-table th,
-    .matrix-table td {
-        font-size: 0.8em;
-        padding: 5px;
+    .matrix-table th {
+        font-size: 0.75em;
+        padding: 3px;
+        width: 35px;
+        height: 35px;
     }
 
     .matrix-table td {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
     }
 
     .combinations-grid {
