@@ -6,19 +6,18 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-    color: #333;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f5f5f5;
+    color: #222;
+    padding: 40px 20px;
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ddd;
     padding: 40px;
 }
 
@@ -26,214 +25,198 @@ body {
 header {
     text-align: center;
     margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 3px solid #667eea;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #222;
 }
 
 h1 {
-    font-size: 3em;
-    color: #667eea;
+    font-size: 2.5em;
+    font-weight: normal;
+    color: #222;
     margin-bottom: 10px;
+    letter-spacing: 0.05em;
 }
 
 .subtitle {
-    font-size: 1.2em;
-    color: #764ba2;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.description {
-    font-size: 0.95em;
+    font-size: 1em;
     color: #666;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
+    font-weight: normal;
 }
 
 /* Controls section */
 .controls {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 .filter-buttons {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .filter-btn {
-    padding: 10px 20px;
-    border: 2px solid #667eea;
+    padding: 8px 20px;
+    border: 1px solid #222;
     background: white;
-    color: #667eea;
-    border-radius: 25px;
+    color: #222;
     cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    font-family: Georgia, serif;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
-    background: #667eea;
+    background: #222;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .filter-btn.active {
-    background: #667eea;
+    background: #222;
     color: white;
 }
 
 /* Legend */
 .legend {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.9em;
 }
 
 .legend-box {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    border: 2px solid #ddd;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #222;
 }
 
-.occurred-majority {
-    background: #10b981;
-}
-
-.occurred-concurrence {
-    background: #3b82f6;
-}
-
-.occurred-dissent {
-    background: #ef4444;
+.occurred {
+    background: #222;
 }
 
 .not-occurred {
-    background: #e5e7eb;
+    background: white;
 }
 
 /* Stats */
 .stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-bottom: 20px;
-}
-
-.stat-item {
     text-align: center;
-}
-
-.stat-value {
-    display: block;
-    font-size: 2em;
-    font-weight: bold;
-    color: #667eea;
-}
-
-.stat-label {
-    display: block;
-    font-size: 0.9em;
+    font-size: 0.95em;
     color: #666;
-    margin-top: 5px;
 }
 
 /* Visualization */
 .visualization {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .size-group {
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 
 .size-group-header {
-    font-size: 1.5em;
-    color: #667eea;
-    margin-bottom: 15px;
-    font-weight: 600;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 8px;
+    font-size: 1.3em;
+    font-weight: normal;
+    margin-bottom: 30px;
+    color: #222;
+    letter-spacing: 0.02em;
 }
 
+/* Matrix visualization for pairs */
+.matrix-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.matrix-table {
+    border-collapse: collapse;
+}
+
+.matrix-table th {
+    font-weight: normal;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.matrix-table td {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.matrix-table td.occurred {
+    background: #222;
+}
+
+.matrix-table td.not-occurred {
+    background: white;
+}
+
+.matrix-table td.empty {
+    border: none;
+    cursor: default;
+}
+
+.matrix-table td:not(.empty):hover {
+    border-color: #222;
+    border-width: 2px;
+}
+
+/* Trios and Quads grid */
 .combinations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .combination-card {
-    background: #e5e7eb;
-    border: 2px solid #d1d5db;
-    border-radius: 10px;
+    border: 1px solid #ddd;
     padding: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-height: 120px;
+    transition: all 0.2s ease;
+    min-height: 80px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .combination-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #222;
+    border-width: 2px;
+    padding: 14px;
 }
 
 .combination-card.occurred {
-    background: #10b981;
-    border-color: #059669;
+    background: #222;
     color: white;
+    border-color: #222;
 }
 
-.combination-card.occurred.concurrence {
-    background: #3b82f6;
-    border-color: #2563eb;
-}
-
-.combination-card.occurred.dissent {
-    background: #ef4444;
-    border-color: #dc2626;
+.combination-card.not-occurred {
+    background: white;
+    color: #222;
 }
 
 .combination-justices {
     font-size: 0.9em;
-    line-height: 1.5;
-    font-weight: 500;
-}
-
-.combination-card.occurred .combination-justices {
-    font-weight: 600;
-}
-
-.combination-info {
-    margin-top: 10px;
-    font-size: 0.8em;
-    opacity: 0.9;
-}
-
-.not-occurred-label {
-    color: #6b7280;
-    font-style: italic;
-    font-size: 0.85em;
+    line-height: 1.4;
 }
 
 /* Modal */
@@ -245,8 +228,7 @@ h1 {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal.show {
@@ -257,47 +239,47 @@ h1 {
 
 .modal-content {
     background-color: white;
-    padding: 30px;
-    border-radius: 15px;
+    padding: 40px;
+    border: 1px solid #222;
     max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     position: relative;
 }
 
 .close {
-    color: #aaa;
-    float: right;
+    position: absolute;
+    right: 20px;
+    top: 20px;
     font-size: 28px;
-    font-weight: bold;
+    font-weight: normal;
     cursor: pointer;
-    line-height: 20px;
+    color: #666;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
+.close:hover {
+    color: #222;
 }
 
 #modal-title {
-    color: #667eea;
+    font-size: 1.5em;
+    font-weight: normal;
     margin-bottom: 20px;
-    padding-right: 30px;
+    color: #222;
 }
 
 .modal-justices {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 .modal-justices h3 {
-    color: #764ba2;
-    margin-bottom: 10px;
     font-size: 1.1em;
+    font-weight: normal;
+    margin-bottom: 15px;
+    color: #222;
 }
 
 .justice-list {
@@ -307,64 +289,38 @@ h1 {
 
 .justice-list li {
     padding: 5px 0;
-    color: #333;
+    color: #222;
 }
 
 .cases-section h3 {
-    color: #764ba2;
-    margin-bottom: 15px;
     font-size: 1.1em;
+    font-weight: normal;
+    margin-bottom: 15px;
+    color: #222;
 }
 
 .case-item {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    border-left: 4px solid #667eea;
+    border-left: 2px solid #222;
+    padding-left: 15px;
+    margin-bottom: 20px;
 }
 
 .case-name {
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-    font-size: 1.05em;
+    font-weight: normal;
+    color: #222;
+    margin-bottom: 5px;
+    font-style: italic;
 }
 
 .case-details {
-    display: flex;
-    gap: 15px;
     font-size: 0.9em;
     color: #666;
-}
-
-.case-type {
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.85em;
-    font-weight: 600;
-}
-
-.case-type.majority {
-    background: #d1fae5;
-    color: #059669;
-}
-
-.case-type.concurrence {
-    background: #dbeafe;
-    color: #2563eb;
-}
-
-.case-type.dissent {
-    background: #fee2e2;
-    color: #dc2626;
 }
 
 .no-cases {
     text-align: center;
     padding: 30px;
     color: #666;
-    font-style: italic;
 }
 
 /* Responsive design */
@@ -378,17 +334,28 @@ h1 {
     }
 
     .filter-buttons {
-        gap: 8px;
+        flex-wrap: wrap;
     }
 
     .filter-btn {
-        padding: 8px 15px;
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
 
-    .stats {
+    .legend {
         flex-direction: column;
-        gap: 20px;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+        font-size: 0.8em;
+        padding: 5px;
+    }
+
+    .matrix-table td {
+        width: 30px;
+        height: 30px;
     }
 
     .combinations-grid {

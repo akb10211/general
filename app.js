@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    // Generate all possible combinations
+    // Generate all possible combinations (2-4 justices only)
     allCombinations = getAllCombinations();
 
     // Render the visualization
@@ -31,7 +31,6 @@ function renderVisualization() {
 
     // Group combinations by size
     const groupedCombinations = {};
-
     allCombinations.forEach(combo => {
         const size = combo.length;
         if (!groupedCombinations[size]) {
@@ -41,10 +40,14 @@ function renderVisualization() {
     });
 
     // Render each size group
-    for (let size = 2; size <= 9; size++) {
-        if (groupedCombinations[size] && shouldShowSize(size)) {
-            renderSizeGroup(size, groupedCombinations[size], container);
-        }
+    if (shouldShowSize(2)) {
+        renderPairsMatrix(groupedCombinations[2], container);
+    }
+    if (shouldShowSize(3)) {
+        renderTriosGrid(groupedCombinations[3], container);
+    }
+    if (shouldShowSize(4)) {
+        renderQuadsGrid(groupedCombinations[4], container);
     }
 }
 
@@ -56,26 +59,84 @@ function shouldShowSize(size) {
     return parseInt(currentFilter) === size;
 }
 
-// Render a group of combinations of the same size
-function renderSizeGroup(size, combinations, container) {
-    // Create size group container
+// Render pairs as a triangular matrix (like the adjacency matrix)
+function renderPairsMatrix(combinations, container) {
     const sizeGroup = document.createElement('div');
     sizeGroup.className = 'size-group';
-    sizeGroup.dataset.size = size;
 
-    // Create header
     const header = document.createElement('div');
     header.className = 'size-group-header';
-    const sizeName = getSizeName(size);
     const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
-    header.textContent = `${sizeName} (${occurredCount} of ${combinations.length} occurred)`;
+    header.textContent = `Pairs (${occurredCount} of ${combinations.length})`;
     sizeGroup.appendChild(header);
 
-    // Create grid for combinations
+    // Create matrix container
+    const matrixContainer = document.createElement('div');
+    matrixContainer.className = 'matrix-container';
+
+    // Build triangular matrix table
+    const table = document.createElement('table');
+    table.className = 'matrix-table';
+
+    // Create header row with justice names
+    const headerRow = document.createElement('tr');
+    headerRow.appendChild(document.createElement('th')); // Empty corner cell
+
+    for (let i = 0; i < justices.length; i++) {
+        const th = document.createElement('th');
+        th.textContent = justices[i].shortName;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+
+    // Create matrix rows (triangular)
+    for (let row = 0; row < justices.length; row++) {
+        const tr = document.createElement('tr');
+
+        // Row header (justice name)
+        const rowHeader = document.createElement('th');
+        rowHeader.textContent = justices[row].shortName;
+        tr.appendChild(rowHeader);
+
+        // Create cells for each column
+        for (let col = 0; col < justices.length; col++) {
+            const td = document.createElement('td');
+
+            // Only show cells in the lower triangle (excluding diagonal)
+            if (col < row) {
+                const combo = [col, row];
+                const occurred = hasOccurred(combo);
+                td.className = occurred ? 'occurred' : 'not-occurred';
+                td.addEventListener('click', () => showCombinationDetails(combo));
+            } else {
+                td.className = 'empty';
+            }
+
+            tr.appendChild(td);
+        }
+
+        table.appendChild(tr);
+    }
+
+    matrixContainer.appendChild(table);
+    sizeGroup.appendChild(matrixContainer);
+    container.appendChild(sizeGroup);
+}
+
+// Render trios as a grid
+function renderTriosGrid(combinations, container) {
+    const sizeGroup = document.createElement('div');
+    sizeGroup.className = 'size-group';
+
+    const header = document.createElement('div');
+    header.className = 'size-group-header';
+    const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
+    header.textContent = `Trios (${occurredCount} of ${combinations.length})`;
+    sizeGroup.appendChild(header);
+
     const grid = document.createElement('div');
     grid.className = 'combinations-grid';
 
-    // Add each combination as a card
     combinations.forEach(combo => {
         const card = createCombinationCard(combo);
         grid.appendChild(card);
@@ -85,23 +146,36 @@ function renderSizeGroup(size, combinations, container) {
     container.appendChild(sizeGroup);
 }
 
-// Create a card for a single combination
+// Render quads as a grid
+function renderQuadsGrid(combinations, container) {
+    const sizeGroup = document.createElement('div');
+    sizeGroup.className = 'size-group';
+
+    const header = document.createElement('div');
+    header.className = 'size-group-header';
+    const occurredCount = combinations.filter(combo => hasOccurred(combo)).length;
+    header.textContent = `Quads (${occurredCount} of ${combinations.length})`;
+    sizeGroup.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'combinations-grid';
+
+    combinations.forEach(combo => {
+        const card = createCombinationCard(combo);
+        grid.appendChild(card);
+    });
+
+    sizeGroup.appendChild(grid);
+    container.appendChild(sizeGroup);
+}
+
+// Create a card for a single combination (used for trios and quads)
 function createCombinationCard(justiceIds) {
     const card = document.createElement('div');
     card.className = 'combination-card';
 
     const occurred = hasOccurred(justiceIds);
-    const cases = getCasesForCombination(justiceIds);
-
-    if (occurred) {
-        card.classList.add('occurred');
-
-        // Determine the primary type (use the most recent case's type)
-        const primaryType = cases[0].type;
-        if (primaryType !== 'majority') {
-            card.classList.add(primaryType);
-        }
-    }
+    card.classList.add(occurred ? 'occurred' : 'not-occurred');
 
     // Add justice names
     const justicesDiv = document.createElement('div');
@@ -110,49 +184,19 @@ function createCombinationCard(justiceIds) {
     justicesDiv.textContent = justiceNames;
     card.appendChild(justicesDiv);
 
-    // Add info
-    const infoDiv = document.createElement('div');
-    infoDiv.className = 'combination-info';
-
-    if (occurred) {
-        infoDiv.textContent = `${cases.length} case${cases.length > 1 ? 's' : ''}`;
-    } else {
-        infoDiv.className = 'not-occurred-label';
-        infoDiv.textContent = 'Not yet occurred';
-    }
-
-    card.appendChild(infoDiv);
-
     // Add click handler
     card.addEventListener('click', () => showCombinationDetails(justiceIds));
 
     return card;
 }
 
-// Get a friendly name for combination size
-function getSizeName(size) {
-    const names = {
-        2: 'Pairs (2 Justices)',
-        3: 'Trios (3 Justices)',
-        4: 'Quads (4 Justices)',
-        5: 'Five Justices',
-        6: 'Six Justices',
-        7: 'Seven Justices',
-        8: 'Eight Justices',
-        9: 'All Nine Justices (Unanimous)'
-    };
-    return names[size] || `${size} Justices`;
-}
-
 // Update statistics display
 function updateStatistics() {
     const totalCombinations = allCombinations.length;
     const occurredCount = allCombinations.filter(combo => hasOccurred(combo)).length;
-    const completionRate = ((occurredCount / totalCombinations) * 100).toFixed(1);
 
     document.getElementById('total-combinations').textContent = totalCombinations;
     document.getElementById('occurred-count').textContent = occurredCount;
-    document.getElementById('completion-rate').textContent = `${completionRate}%`;
 }
 
 // Set up filter button handlers
@@ -202,14 +246,19 @@ function showCombinationDetails(justiceIds) {
     const cases = getCasesForCombination(justiceIds);
 
     // Set title
-    title.textContent = `${justiceIds.length} Justice Combination`;
+    const sizeNames = {
+        2: 'Pair',
+        3: 'Trio',
+        4: 'Quad'
+    };
+    title.textContent = sizeNames[justiceIds.length] || `${justiceIds.length} Justices`;
 
     // Build modal content
     let content = '';
 
     // Show justices
     content += '<div class="modal-justices">';
-    content += '<h3>Justices in this Combination</h3>';
+    content += '<h3>Justices</h3>';
     content += '<ul class="justice-list">';
     justiceIds.forEach(id => {
         const justice = justices[id];
@@ -222,21 +271,18 @@ function showCombinationDetails(justiceIds) {
     // Show cases
     content += '<div class="cases-section">';
     if (occurred && cases.length > 0) {
-        content += `<h3>Cases (${cases.length})</h3>`;
+        content += `<h3>Cases</h3>`;
         cases.forEach(caseItem => {
             content += '<div class="case-item">';
             content += `<div class="case-name">${caseItem.caseName}</div>`;
             content += '<div class="case-details">';
-            content += `<span class="case-type ${caseItem.type}">${capitalizeFirst(caseItem.type)}</span>`;
-            content += `<span>${caseItem.date}</span>`;
-            content += `<span>${caseItem.citation}</span>`;
+            content += `${caseItem.date} &middot; ${caseItem.citation}`;
             content += '</div>';
             content += '</div>';
         });
     } else {
         content += '<div class="no-cases">';
         content += '<p>This combination has not yet occurred in any signed opinion.</p>';
-        content += '<p>When it does, the case details will appear here!</p>';
         content += '</div>';
     }
     content += '</div>';
@@ -245,17 +291,10 @@ function showCombinationDetails(justiceIds) {
     modal.classList.add('show');
 }
 
-// Helper function to capitalize first letter
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// Calculate total possible combinations (for reference)
-// This is sum of C(n,k) for k=2 to n, where n=9
-// C(9,2) + C(9,3) + ... + C(9,9) = 2^9 - 1 - 9 = 502
-console.log(`Total possible combinations: ${allCombinations.length}`);
+// Log statistics on load
+console.log(`Total possible combinations (2-4 justices): ${allCombinations.length}`);
 console.log(`Combinations by size:`);
-for (let size = 2; size <= 9; size++) {
+for (let size = 2; size <= 4; size++) {
     const count = allCombinations.filter(c => c.length === size).length;
     console.log(`  ${size} justices: ${count}`);
 }

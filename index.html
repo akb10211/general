@@ -3,81 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minorigami - Supreme Court Justice Combinations</title>
+    <title>Minorigami</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>⚖️ Minorigami</h1>
-            <p class="subtitle">Exploring Supreme Court Justice Signing Combinations</p>
-            <p class="description">
-                Like "Scoragami" but for SCOTUS opinions. Each box represents a unique combination
-                of justices who have co-signed opinions together. Green boxes show combinations
-                that have occurred, gray boxes show combinations that haven't happened yet.
-            </p>
+            <h1>Minorigami</h1>
+            <p class="subtitle">Supreme Court Justice Signing Combinations</p>
         </header>
 
         <div class="controls">
             <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Sizes</button>
-                <button class="filter-btn" data-filter="2">Pairs (2)</button>
-                <button class="filter-btn" data-filter="3">Trios (3)</button>
-                <button class="filter-btn" data-filter="4">Quads (4)</button>
-                <button class="filter-btn" data-filter="5">Five (5)</button>
-                <button class="filter-btn" data-filter="6">Six (6)</button>
-                <button class="filter-btn" data-filter="7">Seven (7)</button>
-                <button class="filter-btn" data-filter="8">Eight (8)</button>
-                <button class="filter-btn" data-filter="9">All Nine (9)</button>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="2">Pairs</button>
+                <button class="filter-btn" data-filter="3">Trios</button>
+                <button class="filter-btn" data-filter="4">Quads</button>
             </div>
 
             <div class="legend">
                 <div class="legend-item">
-                    <span class="legend-box occurred-majority"></span>
-                    <span>Majority Opinion</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-box occurred-concurrence"></span>
-                    <span>Concurrence</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-box occurred-dissent"></span>
-                    <span>Dissent</span>
+                    <span class="legend-box occurred"></span>
+                    <span>Occurred</span>
                 </div>
                 <div class="legend-item">
                     <span class="legend-box not-occurred"></span>
-                    <span>Not Yet Occurred</span>
+                    <span>Not Occurred</span>
                 </div>
             </div>
 
             <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="total-combinations">0</span>
-                    <span class="stat-label">Total Combinations</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="occurred-count">0</span>
-                    <span class="stat-label">Occurred</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="completion-rate">0%</span>
-                    <span class="stat-label">Completion Rate</span>
-                </div>
+                <span id="occurred-count">0</span> of <span id="total-combinations">0</span> combinations
             </div>
         </div>
 
         <div id="visualization" class="visualization">
-            <!-- Combination grid will be generated here by JavaScript -->
+            <!-- Visualizations will be generated here by JavaScript -->
         </div>
 
         <!-- Modal for showing combination details -->
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2 id="modal-title">Combination Details</h2>
-                <div id="modal-body">
-                    <!-- Details will be inserted here -->
-                </div>
+                <h2 id="modal-title"></h2>
+                <div id="modal-body"></div>
             </div>
         </div>
     </div>
