@@ -24,26 +24,6 @@ function initializeApp() {
 
     // Set up modal
     setupModal();
-
-    // Set up corner ribbon visibility
-    setupCornerRibbon();
-}
-
-// Handle corner ribbon visibility based on scroll position
-function setupCornerRibbon() {
-    function updateRibbonVisibility() {
-        if (window.scrollY === 0) {
-            document.body.classList.add('at-top');
-        } else {
-            document.body.classList.remove('at-top');
-        }
-    }
-
-    // Initial check
-    updateRibbonVisibility();
-
-    // Update on scroll
-    window.addEventListener('scroll', updateRibbonVisibility);
 }
 
 // Render the main visualization

@@ -11,21 +11,6 @@ body {
     color: #222;
     padding: 40px 20px;
     line-height: 1.6;
-    position: relative;
-}
-
-/* Corner ribbon (visible only at top of page) */
-body.at-top::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, transparent 0%, transparent 30%, #510000 30%, #510000 100%);
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.85;
 }
 
 .container {
@@ -34,6 +19,20 @@ body.at-top::before {
     background: white;
     border: 1px solid #ddd;
     padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Corner ribbon */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, transparent 0%, transparent 50%, #510000 50%, #510000 100%);
+    pointer-events: none;
 }
 
 /* Header */
