@@ -180,19 +180,20 @@ h1 {
 
 .clear-filters-btn {
     padding: 6px 14px;
-    border: 1px solid #999;
+    border: 2px solid #cc0000;
     background: white;
-    color: #666;
+    color: #cc0000;
     cursor: pointer;
     font-family: Georgia, serif;
     font-size: 0.85em;
-    margin-left: 10px;
+    margin-left: 25px;
+    font-weight: bold;
 }
 
 .clear-filters-btn:hover {
-    background: #f0f0f0;
-    border-color: #222;
-    color: #222;
+    background: #cc0000;
+    border-color: #cc0000;
+    color: white;
 }
 
 /* Matrix visualization for pairs */
@@ -204,7 +205,7 @@ h1 {
 
 .matrix-table {
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 2px;
 }
 
 .matrix-table th {

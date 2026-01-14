@@ -90,8 +90,8 @@ function renderPairsMatrix(combinations, container) {
     }
     table.appendChild(headerRow);
 
-    // Create matrix rows (triangular)
-    for (let row = 0; row < justices.length; row++) {
+    // Create matrix rows (triangular) - REVERSED order so longest row is at top
+    for (let row = justices.length - 1; row >= 0; row--) {
         const tr = document.createElement('tr');
 
         // Row header (justice name)
@@ -108,6 +108,10 @@ function renderPairsMatrix(combinations, container) {
                 const combo = [col, row];
                 const occurred = hasOccurred(combo);
                 td.className = occurred ? 'occurred' : 'not-occurred';
+
+                // Add tooltip showing both justice names
+                td.title = `${justices[col].shortName} & ${justices[row].shortName}`;
+
                 td.addEventListener('click', () => showCombinationDetails(combo));
             } else {
                 td.className = 'empty';
