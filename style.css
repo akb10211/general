@@ -30,6 +30,14 @@ header {
     position: relative;
 }
 
+.arrow-to-kofi {
+    position: absolute;
+    top: 0;
+    right: 140px;
+    transform: rotate(-20deg);
+    opacity: 0.8;
+}
+
 .kofi-btn {
     position: absolute;
     top: 0;
@@ -448,6 +456,20 @@ h1 {
     color: #666;
 }
 
+/* Attribution footer */
+.attribution {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    color: #999;
+    font-size: 0.9em;
+}
+
+.attribution .author {
+    font-variant: small-caps;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
@@ -488,6 +510,10 @@ h1 {
     .matrix-table td {
         width: 42px;
         height: 42px;
+    }
+
+    .arrow-to-kofi {
+        display: none;
     }
 
     .kofi-btn {
